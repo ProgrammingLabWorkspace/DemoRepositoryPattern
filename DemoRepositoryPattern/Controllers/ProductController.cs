@@ -1,4 +1,5 @@
 ﻿using DemoRepositoryPattern.Infraestructure.Data;
+using DemoRepositoryPattern.Infraestructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,17 +10,17 @@ namespace DemoRepositoryPattern.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly ProductRepository _repository;
 
-        public ProductController(AppDbContext context)
+        public ProductController(ProductRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [HttpGet]
-        public ActionResult All()
+        public async Task<ActionResult> All()
         {
-            var products = _context.Products.AsNoTracking().ToList();
+            var products = await _repository.GetAll();
 
             return Ok(products);
         }

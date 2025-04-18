@@ -1,3 +1,4 @@
+using DemoRepositoryPattern.Infraestructure;
 using DemoRepositoryPattern.Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,6 +18,8 @@ builder.Services.AddDbContext<AppDbContext>(config =>
 {
     config.UseSqlServer(connectionString);
 });
+
+builder.Services.AddInfra();
 
 var app = builder.Build();
 
