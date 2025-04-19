@@ -1,4 +1,5 @@
-﻿using DemoRepositoryPattern.Infraestructure.Data;
+﻿using DemoRepositoryDemo.Core.Models;
+using DemoRepositoryPattern.Infraestructure.Data;
 using DemoRepositoryPattern.Infraestructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,21 +27,21 @@ namespace DemoRepositoryPattern.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create()
+        public ActionResult Create([FromBody] Product product)
         {
-            return Ok();
+            return Ok(_repository.CreateAsync(product));            
         }
 
         [HttpPut]
-        public ActionResult Update()
+        public ActionResult Update([FromBody] Product product)
         {
-            return Ok();
+            return Ok(_repository.UpdateAsync(product));
         }
 
-        [HttpDelete]
-        public ActionResult Delete()
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
         {
-            return Ok();
+            return Ok(_repository.DeleteAsync(id));
         }
     }
 }

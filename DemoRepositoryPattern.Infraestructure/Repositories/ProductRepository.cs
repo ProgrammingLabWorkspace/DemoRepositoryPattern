@@ -1,10 +1,11 @@
-﻿using DemoRepositoryDemo.Core.Models;
+﻿using DemoRepositoryDemo.Core.Contracts.Repositories;
+using DemoRepositoryDemo.Core.Models;
 using DemoRepositoryPattern.Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace DemoRepositoryPattern.Infraestructure.Repositories
 {
-    public class ProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly AppDbContext _context;
 
@@ -30,8 +31,10 @@ namespace DemoRepositoryPattern.Infraestructure.Repositories
             return product;
         }
 
-        public async Task<Product> DeleteAsync(Product product, CancellationToken cancellationToken = default)
+        public async Task<Product> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
+            var product = await GetById(id);
+
             _context.Products.Remove(product);
             await _context.SaveChangesAsync(cancellationToken);
 
