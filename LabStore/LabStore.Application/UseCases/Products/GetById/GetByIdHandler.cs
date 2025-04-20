@@ -1,5 +1,6 @@
 ﻿using LabStore.Domain.Abstracts;
 using LabStore.Domain.Repositories;
+using LabStore.Domain.Specifications.Products;
 using MediatR;
 
 namespace LabStore.Application.UseCases.Products.GetById
@@ -9,7 +10,8 @@ namespace LabStore.Application.UseCases.Products.GetById
     {
         public async Task<Result<GetByIdResponse>> Handle(GetByIdCommand request, CancellationToken cancellationToken)
         {
-            var product = await repository.GetByIdAsync(request.id, cancellationToken);
+            var spec = new GetProductByIdSpecification(request.id);
+            var product = await repository.GetByIdAsync(spec, cancellationToken);
 
             if(product is null)
             {
