@@ -1,4 +1,5 @@
 using LabStore.Application;
+using LabStore.Application.UseCases.Products.Create;
 using LabStore.Application.UseCases.Products.GetById;
 using LabStore.Infraestructure;
 using LabStore.Infraestructure.Data;
@@ -53,5 +54,18 @@ app.MapGet("v1/product/{id}", async (ISender sender, Guid id, CancellationToken 
         return Results.BadRequest(result.Error);
     }
 });
+
+app.MapPost("v1/products", async (
+    ISender sender,
+    CreateProductCommand command,
+    CancellationToken cancellationToken) =>
+{
+    var result = await sender.Send(command, cancellationToken);
+
+    return result.IsSuccess
+        ? Results.Ok(result.Value)
+        : Results.BadRequest(result.Error);
+});
+
 
 app.Run();

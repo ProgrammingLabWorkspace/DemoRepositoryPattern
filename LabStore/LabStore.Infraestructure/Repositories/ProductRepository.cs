@@ -16,5 +16,11 @@ namespace LabStore.Infraestructure.Repositories
 
             return product;
         }
+
+        public async Task Create(Product product, CancellationToken cancellationToken = default)
+        {
+            await context.Products.AddAsync(product, cancellationToken);
+            //await context.SaveChangesAsync(cancellationToken);
+        }
     }
 }
